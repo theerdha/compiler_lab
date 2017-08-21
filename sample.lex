@@ -1,12 +1,11 @@
-digit [0-9] 
-keyword     [unsigned|break|return|void|case|float|short|char|for|signed|while|goto|Bool|continue|if|default|do|int|switch|double|long|else|Matrix]
-identifier-nondigit [A-Za-z]
+digit [0-9]
+identifier-nondigit [A-Za-z_]
 zero-constant [0]
 nonzero-digit [1-9]
 sign ["+"|"-"]
-escape-sequence [\'|\"|\?|\\|\a|\b|\f|\n|\r|\t|\v]
-any [^(\'|\\|\n)]
-dot ["\."]
+escape-sequence [\'\"\?\\\a\b\f\n\r\t\v]
+any [^\'\\\n]
+dot ["."]
 B (({digit}+)?){dot}({digit}+)|({digit}+{dot})
 
 
@@ -28,10 +27,10 @@ B (({digit}+)?){dot}({digit}+)|({digit}+{dot})
 unsigned|break|return|void|case|float|short|char|for|signed|while|goto|Bool|continue|if|default|do|int|switch|double|long|else|Matrix   printf("%d ",1);//return KEYWORD;
 "\"(({any}{escape-sequence})+)?\""    printf("%d ",4);//return STRINGLITERAL;
 {identifier-nondigit}({identifier-nondigit}|{digit})* printf("%d ",2);//return IDENTIFIER;
-{zero-constant}|({nonzero-digit}({digit})*)|('(({any}{escape-sequence})+)')|(({B}|({digit}+))(('e'|'E')({sign}+)({digit}+))|{B}) printf("%d ",3);//return CONSTANT;
+{zero-constant}|({nonzero-digit}({digit})*)|('(({any}{escape-sequence})+)')|(({B}|({digit}+))([eE]([+-]?)({digit}+))|{B}) printf("%d ",3);//return CONSTANT;
 "[]"|"()"|"."|"->"|"++"|"+"|"--"|"-"|"&"|"*"|"~"|"!"|"/"|"%"|"<<"|"<"|">>"|">"|"<="|">="|"=="|"="|"!="|"^"|"|"|"&&"|"||"|"?"|":"|";"|"*="|"\="|"%="|"+="|"-="|"<<="|">>="|"&="|"^="|"|="|","|"#"|"'" printf("%d ",5);//return PUNCTUATOR;
 "\/\*"         {comment();}
-"//"[^\n]*  /*return COMMENTS;*/
+"//"[^\n]*  printf("comments\n");
 
 %% 
 
@@ -47,7 +46,7 @@ int comment()
   
     while ((c = input()) != 0)      /* (EOF maps to 0) */
     {
-        if (c == '/' && prev == '*') printf("comments");
+        if (c == '/' && prev == '*') printf("comments\n");
             //return COMMENTS;
         prev = c;
     }
