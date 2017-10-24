@@ -43,7 +43,12 @@ int conv2int(string s)
 type type::getbasetype()
 {
 	type* ty = actual_type;
-	if(actual_type == NULL) return *this;
+	if(actual_type == NULL) 
+	{
+		cout<< "yes basic"<< endl;
+		return *this;
+	}
+
 	while(ty -> actual_type != NULL)
 	{
 		ty = actual_type;
@@ -106,7 +111,8 @@ symbol_entry::symbol_entry(type entry_type)
 
 	this -> size = entry_type.size;
 
-	symbolTable * nested = NULL;
+
+	this -> nested = NULL;
 }
 //constructor
 symbol_entry::symbol_entry(string name)
@@ -121,7 +127,7 @@ symbol_entry::symbol_entry(string name)
 
 	this -> size = entry_type.size;
 
-	symbolTable * nested = NULL;
+	this -> nested = NULL;
 }
 
 //constructor
@@ -139,7 +145,7 @@ symbol_entry::symbol_entry(string name, type entry_type)
 
 	this -> size = entry_type.size;
 
-	symbolTable * nested = NULL;
+	this -> nested = NULL;
 }
 //constructor
 symbol_entry::symbol_entry(string name, type entry_type, initial_value initial)
@@ -157,7 +163,7 @@ symbol_entry::symbol_entry(string name, type entry_type, initial_value initial)
 
 	this -> size = entry_type.size;
 
-	symbolTable * nested = NULL;
+	this -> nested = NULL;
 }
 //method to create a nested symbol table
 void symbol_entry::createnest()
