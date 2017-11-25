@@ -7,4 +7,5 @@ int printInt(int);
 int readInt(int *);
 int readFlt(float *);
 int printFlt(float);
+int printDbl(double);
 #endif
